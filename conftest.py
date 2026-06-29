@@ -1,5 +1,22 @@
 import pytest
+import requests
 from selenium import webdriver
+
+
+API_BASE_URL = "https://restful-booker.herokuapp.com"
+
+
+@pytest.fixture
+def base_url():
+    return API_BASE_URL
+
+
+@pytest.fixture
+def api_session():
+    session = requests.Session()
+    session.headers.update({"Content-Type": "application/json"})
+    yield session            # setup до yield, тесты используют сессию, teardown после
+    session.close()          # teardown: закрываем сессию
 
 
 @pytest.fixture
